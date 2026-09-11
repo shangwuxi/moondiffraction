@@ -2,7 +2,7 @@
 
 [![Verify diffraction](https://github.com/shangwuxi/moondiffraction/actions/workflows/ci.yml/badge.svg)](https://github.com/shangwuxi/moondiffraction/actions/workflows/ci.yml)
 
-源代码版本：`0.1.0`；[GitHub Releases](https://github.com/shangwuxi/moondiffraction/releases)。
+源代码版本：`0.1.1`；[GitHub Releases](https://github.com/shangwuxi/moondiffraction/releases)。
 
 **MoonBit 常数散射点倒易衍射内核**：已有晶胞参数与分数坐标 → 完整有限反射 → 复结构因子/消光 → Bragg 角 → 粉末峰与有限采样谱。
 
@@ -28,7 +28,13 @@ moon run cmd/powder
 python scripts/oracle.py wasm-gc
 ```
 
-当前代码仅依赖 `moonbitlang/core/math` 及标准库内建能力。**新项目尚未发布 MoonCakes**，不能把 `moon add shangwuxi/moondiffraction` 当作已可用安装命令。库 API 可在此仓库中的新 package 导入，或将本仓库作为本地模块依赖；请参照当前 MoonBit 本地依赖配置。
+当前代码仅依赖 `moonbitlang/core/math` 及标准库内建能力。已以 **shangwuxi** 身份发布到 [MoonCakes](https://mooncakes.io/docs/shangwuxi/moondiffraction)。在已有 MoonBit 工程中运行：
+
+```sh
+moon add shangwuxi/moondiffraction
+```
+
+`0.1.1` 为发布说明同步版本，数值实现与 `0.1.0` 相同。GitHub 对应标签 `v0.1.1`；`v0.1.0` 保留其历史发布说明，不改写标签。
 
 已本地验证工具链：moon 0.1.20260904；moonc v0.10.12+1634b282e（2026-09-07）。不修改其他项目/全局工具链。原生构建需要 C 编译器；本机仅验证 native check，native build 因缺少 cl/cc/gcc/clang 未运行成功；CI 已使用 Ubuntu C 工具链完成 native check/build/test、三个示例和独立 oracle；这不等同于本地 native 构建通过。
 
