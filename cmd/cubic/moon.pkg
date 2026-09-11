@@ -1,0 +1,5 @@
+import {
+  "shangwuxi/moondiffraction" @diff,
+}
+
+pkgtype(kind: "executable")
