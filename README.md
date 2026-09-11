@@ -1,5 +1,9 @@
 # MoonDiffraction
 
+[![Verify diffraction](https://github.com/shangwuxi/moondiffraction/actions/workflows/ci.yml/badge.svg)](https://github.com/shangwuxi/moondiffraction/actions/workflows/ci.yml)
+
+源代码版本：`0.1.0`；[GitHub Releases](https://github.com/shangwuxi/moondiffraction/releases)。
+
 **MoonBit 常数散射点倒易衍射内核**：已有晶胞参数与分数坐标 → 完整有限反射 → 复结构因子/消光 → Bragg 角 → 粉末峰与有限采样谱。
 
 这不是 MoonINI 的改名版本，也不是 CIF/通用晶体解析器。面向教学工具与离线数值原型；**不是元素相关 X 射线仿真、实验标定、结构精修或完整空间群库**。
@@ -26,7 +30,7 @@ python scripts/oracle.py wasm-gc
 
 当前代码仅依赖 `moonbitlang/core/math` 及标准库内建能力。**新项目尚未发布 MoonCakes**，不能把 `moon add shangwuxi/moondiffraction` 当作已可用安装命令。库 API 可在此仓库中的新 package 导入，或将本仓库作为本地模块依赖；请参照当前 MoonBit 本地依赖配置。
 
-已本地验证工具链：moon 0.1.20260904；moonc v0.10.12+1634b282e（2026-09-07）。不修改其他项目/全局工具链。原生构建需要 C 编译器；本机仅验证 native check，native build 因缺少 cl/cc/gcc/clang 未运行成功；CI 用 Ubuntu C 工具链验证。
+已本地验证工具链：moon 0.1.20260904；moonc v0.10.12+1634b282e（2026-09-07）。不修改其他项目/全局工具链。原生构建需要 C 编译器；本机仅验证 native check，native build 因缺少 cl/cc/gcc/clang 未运行成功；CI 已使用 Ubuntu C 工具链完成 native check/build/test、三个示例和独立 oracle；这不等同于本地 native 构建通过。
 
 ## 三个分别可运行的完整场景
 
@@ -99,8 +103,8 @@ moon test --target wasm-gc --deny-warn
 python scripts/oracle.py wasm-gc
 ```
 
-把 target 换成 wasm / js / native 做相同验证（native 需 C 编译器）。当前 24 个 MoonBit 测试组；其中含 2394 个平移规则交叉检查、立方壳计数、NaN/Infinity、非对称三斜、资源失败及六维导数差分。另有 **496 组独立 Python 标准库 oracle**，以笛卡尔叉积重建倒易基，避免与被测余子式公式共用同一算法。测试组数不等于断言数，不能混报。
+把 target 换成 wasm / js / native 做相同验证（native 需 C 编译器）。2026-09-11 四目标 CI 首次全部通过（[验证记录](https://github.com/shangwuxi/moondiffraction/actions/runs/34609667244)）。当前 24 个 MoonBit 测试组；其中含 2394 个平移规则交叉检查、立方壳计数、NaN/Infinity、非对称三斜、资源失败及六维导数差分。另有 **496 组独立 Python 标准库 oracle**，以笛卡尔叉积重建倒易基，避免与被测余子式公式共用同一算法。测试组数不等于断言数，不能混报。
 
 ## 开源与发布
 
-MIT；唯一项目 Git 提交身份 `shangwuxi`。AI 协助范围见 [AI_USAGE.md](AI_USAGE.md)，数学/生态来源及未复制声明见 [THIRD_PARTY.md](THIRD_PARTY.md)。CI、发布版本和提交审计以 GitHub 实际状态及 `docs/competition` 证据为准。MoonCakes 发布和组委会复核是独立步骤。
+MIT；唯一项目 Git 提交身份 `shangwuxi`。AI 协助范围见 [AI_USAGE.md](AI_USAGE.md)，数学/生态来源及未复制声明见 [THIRD_PARTY.md](THIRD_PARTY.md)。开发快照 21 个非空提交，经逐提交重跑保守计入 20 个，另 1 个粉末修复不单独计入；后续发布文档提交不用于凑门槛，见 [逐 SHA 审计](docs/competition/commit-audit.md)。CI、发布版本以 GitHub 实际状态为准。MoonCakes 发布和组委会复核是独立步骤。
