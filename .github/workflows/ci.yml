@@ -1,0 +1,40 @@
+name: Verify diffraction
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [wasm-gc, wasm, js, native]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install official MoonBit toolchain
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh -o /tmp/install-moonbit.sh
+          bash /tmp/install-moonbit.sh
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Versions and format
+        run: |
+          moon version --all
+          moon fmt --check
+      - name: Check build test
+        run: |
+          moon check --target ${{ matrix.target }} --deny-warn
+          moon build --target ${{ matrix.target }} --deny-warn
+          moon test --target ${{ matrix.target }} --deny-warn
+      - name: Three executable acceptance workflows
+        run: |
+          moon run cmd/cubic --target ${{ matrix.target }}
+          moon run cmd/extinction --target ${{ matrix.target }}
+          moon run cmd/powder --target ${{ matrix.target }}
+      - name: Independent Cartesian oracle
+        run: python3 scripts/oracle.py ${{ matrix.target }}
+      - name: Generated API is current
+        run: |
+          moon info
+          git diff --exit-code -- '*.mbti'
