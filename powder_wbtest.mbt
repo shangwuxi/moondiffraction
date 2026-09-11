@@ -4,18 +4,21 @@ test "anchor grouping prevents tolerance chaining" {
     Reflection::{
       index: hkl(1, 0, 0).unwrap(),
       d: 1.0,
+      wavelength: 1.0,
       intensity: 1.0,
       angle: Some(10.0),
     },
     Reflection::{
       index: hkl(2, 0, 0).unwrap(),
       d: 1.0,
+      wavelength: 1.0,
       intensity: 2.0,
       angle: Some(10.09),
     },
     Reflection::{
       index: hkl(3, 0, 0).unwrap(),
       d: 1.0,
+      wavelength: 1.0,
       intensity: 3.0,
       angle: Some(10.18),
     },

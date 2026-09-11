@@ -15,7 +15,7 @@ pub fn Peak::multiplicity(self : Peak) -> Int {
 ///| Stable grouping against first angle, not transitive chaining. Tolerance in degrees.
 
 ///|
-/// Caller must supply one wavelength and each hkl once; duplicates are rejected.
+/// Caller must supply one wavelength and each hkl once; duplicates and mixed wavelengths are rejected.
 pub fn powder(
   reflections : Array[Reflection],
   tolerance? : Double = 1.0e-7,
@@ -29,6 +29,9 @@ pub fn powder(
   let seen : Map[String, Bool] = Map([])
   let ordered = []
   for r in reflections {
+    if r.wavelength != reflections[0].wavelength {
+      return Err(Invalid("mixed wavelengths in powder input"))
+    }
     let key = "\{r.index.h},\{r.index.k},\{r.index.l}"
     if seen.contains(key) {
       return Err(Invalid("duplicate hkl in powder input"))
@@ -39,7 +42,18 @@ pub fn powder(
       None => ()
     }
   }
-  ordered.sort_by((a, b) => a.angle.unwrap().compare(b.angle.unwrap()))
+  ordered.sort_by((a, b) => {
+    let angle = a.angle.unwrap().compare(b.angle.unwrap())
+    if angle != 0 {
+      angle
+    } else if a.index.h != b.index.h {
+      a.index.h.compare(b.index.h)
+    } else if a.index.k != b.index.k {
+      a.index.k.compare(b.index.k)
+    } else {
+      a.index.l.compare(b.index.l)
+    }
+  })
   let peaks = []
   let mut start = 0
   while start < ordered.length() {

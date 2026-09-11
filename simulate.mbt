@@ -5,6 +5,7 @@ pub struct Reflection {
   d : Double
   intensity : Double
   angle : Double?
+  wavelength : Double
 } derive(Debug)
 
 ///|
@@ -44,7 +45,7 @@ pub fn Metric::simulate(
       Ok(x) => x
       Err(e) => return Err(e)
     }
-    out.push({ index: i, d, intensity: a.intensity(), angle, })
+    out.push({ index: i, d, intensity: a.intensity(), angle, wavelength, })
   }
   Ok(out)
 }

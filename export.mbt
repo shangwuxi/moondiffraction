@@ -38,6 +38,7 @@ pub fn reflections_json(
       "l": r.index.l,
       "d_angstrom": r.d,
       "intensity": r.intensity,
+      "wavelength_angstrom": r.wavelength,
       "two_theta_degree": angle,
     }
   })
