@@ -1,0 +1,136 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "shangwuxi/moondiffraction"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn gaussian_profile(Array[Peak], Double, Double, Int, Double, max_terms? : Int) -> Result[Profile, Problem]
+
+pub fn hkl(Int, Int, Int) -> Result[Hkl, Problem]
+
+pub fn in_zone(Hkl, Int, Int, Int) -> Result[Bool, Problem]
+
+pub fn match_peaks(Array[Double], Array[Peak], Double, max_pairs? : Int) -> Result[Array[PeakMatch], Problem]
+
+pub fn powder(Array[Reflection], tolerance? : Double) -> Result[Array[Peak], Problem]
+
+pub fn reciprocal(Double, Double, Double, Double, Double, Double) -> Result[Metric, Problem]
+
+pub fn reflections_csv(Array[Reflection]) -> Result[String, Problem]
+
+pub fn reflections_json(Array[Reflection]) -> Result[Json, Problem]
+
+pub fn site(Double, Double, Double, Double, occupancy? : Double, b_iso? : Double) -> Result[Site, Problem]
+
+pub fn spacing_from_angle(Double, Double) -> Result[Double, Problem]
+
+pub fn two_theta(Double, Double) -> Result[Double?, Problem]
+
+// Errors
+
+// Types and methods
+pub struct Amplitude {
+  real : Double
+  imag : Double
+} derive(@debug.Debug)
+pub fn Amplitude::intensity(Self) -> Double
+
+pub(all) enum Centering {
+  Primitive
+  Body
+  Face
+  AFace
+  BFace
+  CFace
+  RhombohedralHex
+} derive(Eq, @debug.Debug)
+pub fn Centering::allows(Self, Hkl) -> Bool
+pub fn Centering::translations(Self) -> Array[(Double, Double, Double)]
+
+pub struct Hkl {
+  h : Int
+  k : Int
+  l : Int
+} derive(Eq, @debug.Debug)
+pub fn Hkl::canonical(Self) -> Self
+pub fn Hkl::opposite(Self) -> Self
+
+pub struct Metric {
+  aa : Double
+  bb : Double
+  cc : Double
+  ab : Double
+  ac : Double
+  bc : Double
+  a : Double
+  b : Double
+  c : Double
+} derive(@debug.Debug)
+pub fn Metric::amplitude(Self, Hkl, Array[Site]) -> Result[Amplitude, Problem]
+pub fn Metric::plane_angle(Self, Hkl, Hkl) -> Double
+pub fn Metric::q2(Self, Hkl) -> Double
+pub fn Metric::reflections(Self, Double, max_candidates? : Int, friedel_unique? : Bool) -> Result[Array[Hkl], Problem]
+pub fn Metric::sensitivity(Self, Hkl, Array[Site], Int) -> Result[Sensitivity, Problem]
+pub fn Metric::simulate(Self, Array[Site], Double, Double, centering? : Centering, max_candidates? : Int, max_terms? : Int) -> Result[Array[Reflection], Problem]
+pub fn Metric::spacing(Self, Hkl) -> Double
+pub fn Metric::zone(Self, Double, Int, Int, Int, max_candidates? : Int) -> Result[Array[Hkl], Problem]
+
+pub struct Peak {
+  angle : Double
+  intensity : Double
+  members : Array[Hkl]
+  width : Double
+} derive(@debug.Debug)
+pub fn Peak::multiplicity(Self) -> Int
+
+pub struct PeakMatch {
+  observed : Double
+  candidates : Array[Int]
+  residuals : Array[Double]
+} derive(@debug.Debug)
+
+pub(all) enum Problem {
+  Invalid(String)
+  Budget(String)
+} derive(Eq, @debug.Debug)
+
+pub struct Profile {
+  start : Double
+  step : Double
+  values : Array[Double]
+} derive(@debug.Debug)
+pub fn Profile::area(Self) -> Double
+pub fn Profile::csv(Self) -> String
+
+pub struct Reflection {
+  index : Hkl
+  d : Double
+  intensity : Double
+  angle : Double?
+  wavelength : Double
+} derive(@debug.Debug)
+
+pub struct Sensitivity {
+  dx : Double
+  dy : Double
+  dz : Double
+  occupancy : Double
+  weight : Double
+  b_iso : Double
+} derive(@debug.Debug)
+
+pub struct Site {
+  x : Double
+  y : Double
+  z : Double
+  weight : Double
+  occupancy : Double
+  b_iso : Double
+} derive(@debug.Debug)
+pub fn Site::translated(Self, Double, Double, Double) -> Result[Self, Problem]
+
+// Type aliases
+
+// Traits
